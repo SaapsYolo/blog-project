@@ -1,6 +1,11 @@
-package com.example.BlogProject.dto;
+package com.example.BlogProject.dto.post;
 
-public class request {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+@NotBlank
+@Size(min = 3)
+public class PostRequestDTO {
     private String title;
     private String content;
     private Long userId;

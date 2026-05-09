@@ -1,6 +1,7 @@
 package com.example.BlogProject.controller;
 
-import com.example.BlogProject.model.Post;
+import com.example.BlogProject.dto.post.PostRequestDTO;
+import com.example.BlogProject.dto.post.PostResponseDTO;
 import com.example.BlogProject.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,23 +17,23 @@ public class PostController {
     }
 
     @PostMapping
-    public Post createPost(@RequestBody Post post){
-        return postService.createPost(post);
+    public PostResponseDTO createPost(@RequestBody PostRequestDTO requestDTO){
+        return postService.createPost(requestDTO);
     }
 
     @GetMapping
-    public List<Post> getAllPosts(){
+    public List<PostResponseDTO> getAllPosts(){
         return postService.getAllPosts();
     }
 
     @GetMapping("/{id}")
-    public Post getPostById(@PathVariable Long id){
+    public PostResponseDTO getPostById(@PathVariable Long id){
         return postService.getPostById(id);
     }
 
     @PutMapping("/{id}")
-    public Post updatePost(@PathVariable Long id, @RequestBody Post post){
-        return postService.updatePost(id, post);
+    public PostResponseDTO updatePost(@PathVariable Long id, @RequestBody PostRequestDTO requestDTO){
+        return postService.updatePost(id, requestDTO);
     }
 
     @DeleteMapping("/{id}")
