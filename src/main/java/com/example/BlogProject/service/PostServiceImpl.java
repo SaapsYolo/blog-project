@@ -4,6 +4,7 @@ import com.example.BlogProject.dto.post.PostRequestDTO;
 import com.example.BlogProject.dto.post.PostResponseDTO;
 import com.example.BlogProject.exception.ResourceNotFoundException;
 import com.example.BlogProject.model.Post;
+import com.example.BlogProject.model.User;
 import com.example.BlogProject.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,23 @@ public class PostServiceImpl implements PostService {
 
     //mapper method
     public PostResponseDTO mapToDTO(Post post){
+        // safely handle nulls
+        String username = post.getUser() != null
+                ? post.getUser().getUsername()
+                : null;
+
+        String categoryName = post.getCategory() != null
+                ? post.getCategory().getName()
+                : null;
+
+
+
         return new PostResponseDTO(
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getUser().getUsername(),
-                post.getCategory().getName(),
+                username,
+                categoryName,
                 post.getCreatedAt()
         );
     }
