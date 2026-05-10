@@ -1,10 +1,8 @@
 package com.example.BlogProject.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 public class Comment {
@@ -19,7 +17,6 @@ public class Comment {
     //many comments -> one post
     @ManyToOne
     @JoinColumn( name = "post_id")
-    @JsonIgnore
     private Post post;
 
     //many comments -> one user

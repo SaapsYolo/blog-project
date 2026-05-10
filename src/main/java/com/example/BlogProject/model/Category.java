@@ -1,5 +1,6 @@
 package com.example.BlogProject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,7 +15,15 @@ public class Category {
 
     //one category -> many posts
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Post> posts;
+
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
 
     //getter & setters
 

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -21,6 +22,7 @@ public class User {
 
     //one user -> many comments
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Comment> comments;
 
     //getters & setters
