@@ -3,9 +3,12 @@ package com.example.BlogProject.service;
 import com.example.BlogProject.dto.post.PostRequestDTO;
 import com.example.BlogProject.dto.post.PostResponseDTO;
 import com.example.BlogProject.exception.ResourceNotFoundException;
+import com.example.BlogProject.model.Category;
 import com.example.BlogProject.model.Post;
 import com.example.BlogProject.model.User;
+import com.example.BlogProject.repository.CategoryRepository;
 import com.example.BlogProject.repository.PostRepository;
+import com.example.BlogProject.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +16,14 @@ import java.util.List;
 @Service
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
-    public PostServiceImpl(PostRepository postRepository){
+    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
-
 
     //mapper method
     public PostResponseDTO mapToDTO(Post post){
@@ -44,10 +50,22 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponseDTO createPost(PostRequestDTO requestDTO){
+        User user = userRepository.findById(requestDTO.getUserId())
+                .orElseThrow(()->
+                        new ResourceNotFoundException("User not found")
+                );
+
+        Category category = categoryRepository.findById(requestDTO.getCategoryId())
+                .orElseThrow(()->
+                        new ResourceNotFoundException("Category not found")
+                );
+
         Post post = new Post();
 
         post.setTitle(requestDTO.getTitle());
         post.setContent(requestDTO.getContent());
+        post.setUser(user);
+        post.setCategory(category);
 
         Post savedPost = postRepository.save(post);
 
